@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>Main Page</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script>
+</head>
+<body>
+
+<div id="chatArea"></div>
+<input type="text" id="messageInput" placeholder="Type a message">
+<button id="sendButton" onclick="sendMessage()">Send</button>
+
+<script>
+	var socket = io.connect('http://192.168.218.234:5002');
+	function sendMessage(){
+		var messageInput = document.getElementById('messageInput');
+		var message = messageInput.value;
+		var user = prompt('Enter your name:');
+		socket.emit('message_from_client',{'user':user,'message':message});
+		messageInput.value = '';
+	}
+	socket.on('message_from_server',function(data){
+		var chatArea = document.getElementById('chatArea');
+		var newMessage = document.createElement('p');
+		newMessage.textContent = data.user + ': ' + data.message;
+		chatArea.appendChild(newMessage);
+		chatArea.scrollTop = chatArea.scrollHeight;
+	});
+</script>
+</body>
+</html>

@@ -1,10 +1,11 @@
 import socket
 
 client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-client_socket.connect(('192.168.230.234',5557))
+client_socket.connect(('192.168.218.234',5556))
 choice = input(''' What do you want?   
 		   1. Run a Command
-	           2. Chatting  ''')
+	           2. Chatting 
+				 ''')
 c = int(choice)
 
 if c not in range(1,3):
@@ -12,6 +13,7 @@ if c not in range(1,3):
 	client_socket.close()
 
 client_socket.send(choice.encode())
+print("Client Side:")
 while True:
 	if c==1:
 		command = input("Enter a command: ")
